@@ -93,12 +93,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
+        int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
+        String tag = "";
+        if(index>=0) {
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
-            String tag = backEntry.getName();
+            tag = backEntry.getName();
+        }
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             if(tag.equals("Button"))
                 this.finish();
+        }
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(tag.equals("Button")){
+                MenuFragment firstFragment = (MenuFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_menu);
+                if(firstFragment.isHidden()) {
+                    getSupportFragmentManager().popBackStack("Button", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    showMenu();
+                    return;
+                }else
+                    this.finish();
+            }
         }
         super.onBackPressed();
     }
