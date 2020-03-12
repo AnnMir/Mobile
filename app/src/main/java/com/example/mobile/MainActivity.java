@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             //"Альбомная ориентация"
-            if(savedInstanceState == null)
+            if(savedInstanceState == null || getSupportFragmentManager().getBackStackEntryCount()==0)
                 showFragment("start", "start text");
         }
         findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
@@ -56,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().popBackStack("Text", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frame, fragment)
+                .addToBackStack("Button")
+                .add(R.id.frame, fragment)
                 .commit();
     }
 
