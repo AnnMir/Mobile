@@ -3,6 +3,7 @@ package com.example.mobile;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -88,5 +89,17 @@ public class MainActivity extends AppCompatActivity {
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             hideMenu();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
+            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
+            String tag = backEntry.getName();
+            if(tag.equals("Button"))
+                this.finish();
+        }
+        super.onBackPressed();
     }
 }
