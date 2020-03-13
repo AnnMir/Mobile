@@ -2,6 +2,7 @@ package com.example.mobile;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,36 +17,34 @@ public class MenuFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        try{
+            TextView textView = this.getActivity().findViewById(R.id.counter);
+
+            String c = textView.getText().toString();
+            int count = Integer.parseInt(c);
+            Log.i("MobileApp", String.valueOf(count));
+            count = count + 1;
+            Log.i("MobileApp", String.valueOf(count));
+            textView.setText(String.valueOf(count));
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
         return inflater.inflate(R.layout.menu, container, false);
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onDestroyView() {
         try{
             TextView textView = this.getActivity().findViewById(R.id.counter);
             String c = textView.getText().toString();
-            Integer count = Integer.getInteger(c);
-            count = count + 1;
-            Toast.makeText(context, count, Toast.LENGTH_LONG).show();
-            textView.setText(count);
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        try{
-            TextView textView = this.getActivity().findViewById(R.id.counter);
-            String c = textView.getText().toString();
-            Integer count = Integer.getInteger(c);
+            int count = Integer.parseInt(c);
+            Log.i("MobileApp", String.valueOf(count));
             count = count - 1;
-            Toast.makeText(this.getContext(), count, Toast.LENGTH_LONG).show();
-            textView.setText(count);
+            Log.i("MobileApp", String.valueOf(count));
+            textView.setText(String.valueOf(count));
         }catch (NullPointerException e){
             e.printStackTrace();
         }
+        super.onDestroyView();
     }
 }
